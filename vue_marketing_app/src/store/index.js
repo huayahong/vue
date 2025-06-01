@@ -75,6 +75,11 @@ export default createStore({
     
     // 数据分析
     dataAnalysis: {
+      // Note on date handling: Dates are stored as 'YYYY-MM-DD' strings. This format is
+      // lexically sortable. For current usage (display, simple range definition), this is
+      // acceptable. If future requirements involve complex date calculations, filtering, or
+      // sorting of unsorted date strings, consider parsing these into Date objects or using a
+      // dedicated date library to ensure correctness.
       dateRange: {
         start: '2025-05-22',
         end: '2025-05-29'
@@ -194,6 +199,10 @@ export default createStore({
     addScript(state, { dayId, script }) {
       const dayIndex = state.scriptDays.findIndex(day => day.id === dayId);
       if (dayIndex !== -1) {
+        // NOTE: The following ID generation logic assumes that existing script IDs are numeric and
+        // that new IDs are generated sequentially. This could be a point of failure if script IDs
+        // could become non-numeric or if reordering/deletion logic changes in the future to reuse
+        // IDs in a non-sequential manner.
         const newId = state.scriptDays[dayIndex].scripts.length > 0 
           ? Math.max(...state.scriptDays[dayIndex].scripts.map(s => s.id)) + 1 
           : 1;
@@ -295,6 +304,14 @@ export default createStore({
     
     overallStats: (state) => {
       // 计算总体统计数据
+      if (state.dataAnalysis.dailyData.length === 0) {
+        return {
+          totalSent: 0,
+          avgReplyRate: '0.0',
+          avgBanRate: '0.0',
+          avgConversionRate: '0.0'
+        };
+      }
       return {
         totalSent: state.dataAnalysis.dailyData.reduce((sum, day) => sum + day.sent, 0),
         avgReplyRate: (state.dataAnalysis.dailyData.reduce((sum, day) => sum + day.replyRate, 0) / state.dataAnalysis.dailyData.length).toFixed(1),

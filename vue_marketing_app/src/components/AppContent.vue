@@ -44,6 +44,9 @@ import DataAnalysisTab from './tabs/DataAnalysisTab.vue'
 
 export default {
   name: 'AppContent',
+  props: {
+    activeContentTab: String
+  },
   components: {
     ScriptEditTab,
     TimingSettingsTab,
@@ -52,7 +55,6 @@ export default {
   },
   data() {
     return {
-      activeTab: 'script-edit',
       tabs: [
         { id: 'script-edit', name: '话术编辑' },
         { id: 'timing-settings', name: '定时设置' },
@@ -61,9 +63,14 @@ export default {
       ]
     }
   },
+  computed: {
+    activeTab() {
+      return this.activeContentTab;
+    }
+  },
   methods: {
     setActiveTab(tabId) {
-      this.activeTab = tabId;
+      this.$emit('tab-change', tabId);
     }
   }
 }

@@ -2,8 +2,8 @@
   <div class="container">
     <app-header />
     <div class="main-content">
-      <app-sidebar />
-      <app-content />
+      <app-sidebar @menu-change="handleMenuChange" />
+      <app-content :active-content-tab="currentContentTab" @tab-change="handleContentTabChange" />
     </div>
   </div>
 </template>
@@ -19,6 +19,23 @@ export default {
     AppHeader,
     AppSidebar,
     AppContent
+  },
+  data() {
+    return {
+      currentContentTab: 'script-edit'
+    }
+  },
+  methods: {
+    handleMenuChange(sidebarMenuId) {
+      if (sidebarMenuId === 'script') {
+        this.currentContentTab = 'script-edit';
+      } else if (sidebarMenuId === 'timing') {
+        this.currentContentTab = 'timing-settings';
+      }
+    },
+    handleContentTabChange(tabId) {
+      this.currentContentTab = tabId;
+    }
   }
 }
 </script>
