@@ -18,5 +18,6 @@ module.exports = {
     // Add any project-specific rules or overrides here.
     // For example, to suppress 'no-unused-vars' for now:
     // 'no-unused-vars': 'warn',
+    'no-unused-vars': ['error', { 'argsIgnorePattern': '^_', 'varsIgnorePattern': '^_' }]
   }
 };

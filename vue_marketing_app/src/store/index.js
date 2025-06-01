@@ -267,7 +267,7 @@ export default createStore({
       });
     },
     
-    async generateTestScript({ state }, { dayId, prompt }) {
+    async generateTestScript({ state: _state }, { dayId, prompt: _prompt }) {
       // 模拟生成话术
       return new Promise((resolve) => {
         setTimeout(() => {

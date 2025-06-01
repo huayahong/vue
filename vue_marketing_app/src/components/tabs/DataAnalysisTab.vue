@@ -201,7 +201,7 @@ export default {
       get() {
         return this.dateRangeState;
       },
-      set(value) {
+      set(_value) {
         // 在这里不直接提交，而是通过updateDateRange方法提交
       }
     },
